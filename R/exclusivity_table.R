@@ -28,20 +28,20 @@
 #'
 
 
-exclusivity_table <- function(Vars, DF){
+exclusivity_table <- function(Vars, DF) {
   Yes <- Area_sq_Km <- Variable <- .data <- NULL
-  n = length(Vars)
+  n <- length(Vars)
 
   Combinations <- utils::combn(Vars, m = n - 1) %>% as.data.frame()
 
   Table <- list()
 
-  for(i in 1:ncol(Combinations)){
-    Var <- Vars[!(Vars %in% Combinations[,i])]
+  for (i in 1:ncol(Combinations)) {
+    Var <- Vars[!(Vars %in% Combinations[, i])]
 
     Temp <- DF %>%
       dplyr::filter(!is.na(.data[[Var]])) %>%
-      rowwise %>%
+      rowwise() %>%
       dplyr::mutate(Yes = sum(dplyr::c_across(dplyr::all_of(Vars)) == "Yes", na.rm = TRUE)) %>%
       ungroup()
 
@@ -71,7 +71,7 @@ exclusivity_table <- function(Vars, DF){
 
 
   Total <- DF %>%
-    rowwise %>%
+    rowwise() %>%
     dplyr::mutate(Yes = sum(dplyr::c_across(dplyr::all_of(Vars)) == "Yes", na.rm = TRUE)) %>%
     ungroup() %>%
     dplyr::filter(Yes > 0) %>%

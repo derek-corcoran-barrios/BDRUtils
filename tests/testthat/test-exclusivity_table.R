@@ -1,5 +1,3 @@
-
-
 test_that("Test exclusivity_table function", {
   LT <- data.frame(
     planned_strictly_protected = c("Yes", "Yes", "Yes", "Yes", NA, NA, NA, NA),
@@ -15,6 +13,4 @@ test_that("Test exclusivity_table function", {
   # Test 2: Check if the result contains the expected columns
   expected_columns <- c("Variable", "Total", "Exclusive", "Non_exclusive")
   expect_equal(colnames(result), expected_columns)
-
-
 })

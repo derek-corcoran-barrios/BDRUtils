@@ -25,8 +25,10 @@
 #' @export
 #'
 
-write_cog <- function(SpatRaster, Name){
-  terra::writeRaster(x = SpatRaster,
-                     filename = Name, overwrite=TRUE,
-                     gdal=c("COMPRESS=DEFLATE", "TFW=YES","of=COG"))
+write_cog <- function(SpatRaster, Name) {
+  terra::writeRaster(
+    x = SpatRaster,
+    filename = Name, overwrite = TRUE,
+    gdal = c("COMPRESS=DEFLATE", "TFW=YES", "of=COG")
+  )
 }
