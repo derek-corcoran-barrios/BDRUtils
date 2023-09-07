@@ -1,0 +1,70 @@
+---
+title: "Getting Started with BDR Utils"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Getting Started with BDR Utils}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(BDRUtils)
+```
+
+## Exclusivity Table Calculation
+
+The `exclusivity_table` function in the `BDRUtils` package is a powerful tool to calculate exclusivity statistics for specified variables in a given data frame. It is particularly useful when you have a dataset with dummy variables (encoded as "Yes" and NA) and want to analyze the exclusivity of these variables with respect to an 'Area_sq_Km' column, representing the shared area in square kilometers.
+
+### Usage
+
+To use the `exclusivity_table` function, you need to provide two arguments:
+ 
+- `Vars`: A character vector of variable names for which exclusivity should be calculated.
+- `DF`: A data frame containing the dummy variables and the 'Area_sq_Km' column.
+
+### Output
+
+The function returns a data frame summarizing exclusivity statistics for the specified variables. The resulting data frame includes the following columns:
+
+- `Variable`: The variable name for which exclusivity statistics are calculated.
+- `Total`: The total shared area in square kilometers for each variable.
+- `Exclusive`: The area that exclusively belongs to the specified variable (non-overlapping with other variables).
+- `Non_exclusive`: The area that overlaps with other variables.
+
+### Example
+
+Let's consider a sample data frame 'LT':
+ 
+```{r}
+ LT <- data.frame(
+   planned_strictly_protected = c("Yes", "Yes", "Yes", "Yes", NA, NA, NA, NA),
+   strictly_protected = c("Yes", "Yes", NA, NA, "Yes", "Yes", NA, NA),
+   sea_natural_areas = c("Yes", NA, "Yes", NA, "Yes", NA, "Yes", NA),   Area_sq_Km = c(4163.9369, 0.0043, 136.5007, 0.0001, 2153.2234, 23.0762, 24540.5325, 327940.2363)
+ )
+```
+
+as seen in the following table
+
+```{r, echo = F}
+knitr::kable(LT)
+```
+
+You can calculate the exclusivity table for the 'strictly_protected' and 'sea_natural_areas' variables using the following code:
+
+```{r}
+result <- exclusivity_table(DF = LT, Vars = c("strictly_protected", "sea_natural_areas"))
+```
+
+The resulting data frame will provide insights into the exclusive and non-exclusive areas for each specified variable as seen in the following table.
+
+```{r, echo = F}
+knitr::kable(result, caption = "Resulting table for exclusivity_table function", digits = 2)
+```
+

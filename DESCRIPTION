@@ -1,0 +1,25 @@
+Package: BDRUtils
+Type: Package
+Title: Utility Function for the Danish Biodiversity Council
+Version: 0.1.0
+Authors@R: c(person("Derek", "Corcoran", email = "derek.corcoran.barrios@gmail.com",
+  role = c("aut", "cre"), comment = c(ORCID = "0000-0002-0248-6230")))
+Maintainer: Derek Corcoran <derek.corcoran.barrios@gmail.com>
+Description: Documents and saves utility functions for the Analyses made for the
+             Danish Biodiverity Council.
+License: GPL (>= 3)
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    dplyr,
+    magrittr,
+    purrr,
+    terra,
+    utils
+RoxygenNote: 7.2.3
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+VignetteBuilder: knitr
