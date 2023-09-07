@@ -103,3 +103,67 @@ In this example, we create a SpatRaster r, specify a filename for the COG file (
 ### Why Use COGs?
 
 Cloud Optimized Geotiffs (COGs) are designed for optimized cloud-based geospatial data storage. They allow for efficient reading and streaming of geospatial data from cloud storage platforms such as AWS S3, Google Cloud Storage, and more. COGs are widely adopted in the geospatial community for sharing and analyzing large geospatial datasets efficiently.
+
+## Subclass classification
+
+There are several functions available to classify land use into specific categories. Each function uses specific criteria to determine the classification. Here's a breakdown of each function:
+
+### OpenGenerator
+
+- **Logic**: This function checks a DataFrame and classifies rows as "Open" habitat based on specific criteria.
+  
+- **Definition**: If the value in the `p3_klit` column (defining habitat types within paragraph 3) is one of the specified habitat types ("Eng", "Hede", "Mose", "Overdrev", "Strandeng", "Klit"), and it is not NA, and the row is not classified as "Untouched" forest (`Urort_Skov` is NA), and it is not classified as "Forest" (`Forest` is NA), and it is not classified as "Intensive Agriculture" (`markblokkort` is NA), then it is classified as "Open" in the `Subclass` column of the DataFrame.
+
+### SoGenerator
+
+- **Logic**: This function checks a DataFrame to classify rows as "So" (lake) habitat based on specific criteria.
+  
+- **Definition**: If the value in the `p3_klit` (paragraph 3) column is "Sø" and it is not NA, then it is classified as "So" (lake) in the `Subclass` column of the DataFrame.
+
+### SkovnaturGenerator
+
+- **Logic**: This function checks a DataFrame to classify rows as "Skovnatur" (natural forest) habitat based on specific criteria.
+  
+- **Definition**: If the row meets one of the following conditions:
+  - It is classified as "Untouched" forest (`Urort_Skov` is not NA) OR
+  - It is classified as "Forest" (`Forest` is not NA), but not as "Untouched" forest (`Urort_Skov` is NA), and it is either in a "National Park" (`National_Parks` is not NA), "Private foundation" (`Fondsejede` is not NA), or falls under the specified habitat types in the `p3_klit` column, then it is classified as "Skovnatur" in the `Subclass` column of the DataFrame.
+
+### DrevetSkovGenerator
+
+- **Logic**: This function checks a DataFrame to classify rows as "Drevet Skov" (managed forest) habitat based on specific criteria.
+
+- **Definition**: If the row meets the following conditions:
+  - It is classified as "Forest" (`Forest` is not NA) AND
+  - It is not classified as "Untouched" forest (`Urort_Skov` is NA) AND
+  - It is not classified as part of a "Private foundation" (`Fondsejede` is NA) AND
+  - It is not classified as "National Park" (`National_Parks` is NA) AND
+  - It is not classified as "Intensive Agriculture" (`markblokkort` is NA), then it is classified as "Drevet Skov" in the `Subclass` column of the DataFrame.
+
+### PGR_in_P3Generator
+
+- **Logic**: This function checks a DataFrame to classify rows as "PGR_in_P3" (Permanent grasslands in paragraph 3) habitat based on specific criteria.
+
+- **Definition**: If the row meets the following conditions:
+  - The value in the `p3_klit` column is not NA AND
+  - The value in the `markblokkort` column is "PGR" AND
+  - The value in the `p3_klit` column is not "Soer" (not a lake), then it is classified as "PGR_in_P3" in the `Subclass` column of the DataFrame.
+
+### PGR_out_of_P3Generator
+
+- **Logic**: This function checks a DataFrame to classify rows as "PGR_out_of_P3" (Permanent grasslands outside of paragraph 3) habitat based on specific criteria.
+
+- **Definition**: If the row meets the following condition:
+  - The value in the `p3_klit` column is NA (not in paragraph 3) AND
+  - The value in the `markblokkort` column is "PGR" (permanent grassland), then it is classified as "PGR_out_of_P3" in the `Subclass` column of the DataFrame.
+
+### INT_AGG_Generator
+
+- **Logic**: This function checks a DataFrame to classify rows as "INT_AGG" (intensive agriculture) habitat based on specific criteria.
+
+- **Definition**: If the row meets the following conditions:
+  - The value in the `markblokkort` column is "INT_AGG" (intensive agriculture) AND
+  - The value in the `p3_klit` column is not "Soer" (not a lake), then it is classified as "INT_AGG" in the `Subclass` column of the DataFrame.
+
+These functions provide a systematic way to classify rows in your DataFrame based on various habitat and land-use criteria. They help you generate specific habitat classes in the `Subclass` column, allowing for more structured analysis of your data.
+
+It's important to note that these categories might not be exclusive of each other, so the order in which you apply these functions can affect the total area for each subclass.
