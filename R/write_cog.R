@@ -14,12 +14,12 @@
 #' # Create a sample SpatRaster
 #' r <- terra::rast(nrows = 5, ncols = 5, vals = 1:25)
 #'
-#' # Specify a filename for the COG file
-#' cog_filename <- "test.tif"
+#' # Save the SpatRaster as a COG
+#' write_cog(SpatRaster = r, Name = "test.tif")
+#'
+#' # Clean up later
 #' file.remove("test.tif")
 #' file.remove("test.tfw")
-#' # Save the SpatRaster as a COG
-#' write_cog(SpatRaster = r, Name = cog_filename)
 #'
 #' @importFrom terra writeRaster
 #' @export

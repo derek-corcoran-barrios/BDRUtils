@@ -68,3 +68,38 @@ The resulting data frame will provide insights into the exclusive and non-exclus
 knitr::kable(result, caption = "Resulting table for exclusivity_table function", digits = 2)
 ```
 
+## Write Cloud Optimized Geotiff (COG)
+
+The `write_cog` function in the `BDRUtils` package allows you to save a SpatRaster object as a Cloud Optimized Geotiff (COG). COGs are geospatial files optimized for efficient storage and retrieval, particularly useful for cloud-based geospatial data platforms.
+
+### Usage
+
+To use the `write_cog` function, you need to provide two arguments:
+
+- `SpatRaster`: A SpatRaster object (class SpatRaster) representing the raster data you want to save as a COG.
+- `Name`: The desired name for the COG file, including the ".tif" extension.
+
+### Output
+
+The function returns a Cloud Optimized Geotiff file saved at the specified location. This file is optimized for efficient cloud storage and retrieval.
+
+### Example
+
+Let's consider a simple example:
+
+```{r}
+# Load required libraries if not already loaded
+# library(terra)
+
+# Create a sample SpatRaster
+r <- terra::rast(nrows = 5, ncols = 5, vals = 1:25)
+
+# Save the SpatRaster as a COG
+write_cog(SpatRaster = r, Name = "test.tif")
+```
+
+In this example, we create a SpatRaster r, specify a filename for the COG file ("test.tif"), and then use the write_cog function to save the SpatRaster as a COG.
+
+### Why Use COGs?
+
+Cloud Optimized Geotiffs (COGs) are designed for optimized cloud-based geospatial data storage. They allow for efficient reading and streaming of geospatial data from cloud storage platforms such as AWS S3, Google Cloud Storage, and more. COGs are widely adopted in the geospatial community for sharing and analyzing large geospatial datasets efficiently.
